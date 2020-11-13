@@ -11,4 +11,6 @@ RUN poetry build -f wheel \
 
 RUN rm -rf /src
 
-ENTRYPOINT ["project"]
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
