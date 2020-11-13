@@ -1,7 +1,9 @@
 import os
+from collections import OrderedDict
 
 import click
 
+from project_variables.providers.aws import AWSProvider
 from project_variables.providers.docker import DockerProvider
 from project_variables.providers.github import GithubProvider
 from project_variables.providers.poetry import PoetryProvider
@@ -16,19 +18,20 @@ from project_variables.providers.workflow import WorkflowProvider
 @click.option("--work-dir", default=os.getcwd())
 def run(debug, work_dir):
     os.chdir(work_dir)
-    providers = (
+    providers = [
         WorkflowProvider(),
         ProjectProvider(),
+        VersionProvider(),
         PoetryProvider(),
         PythonProvider(),
         DockerProvider(),
         GithubProvider(),
-        VersionProvider(),
-    )
+        AWSProvider(),
+    ]
 
-    variables = {}
+    variables = OrderedDict()
     for provider in [p for p in providers if p.is_enabled()]:
-        variables.update(provider.dump())
+        variables.update(provider.dump(variables))
 
     for k, v in variables.items():
         if debug:

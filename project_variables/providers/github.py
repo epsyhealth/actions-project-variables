@@ -2,5 +2,5 @@ class GithubProvider:
     def is_enabled(self):
         return True
 
-    def dump(self):
+    def dump(self, variables):
         return {}

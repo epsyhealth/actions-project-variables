@@ -10,7 +10,7 @@ class PoetryProvider:
     def is_enabled(self):
         return isfile(PoetryProvider.lock_file)
 
-    def dump(self):
+    def dump(self, variables):
         lock = open(PoetryProvider.lock_file).read()
         packages = {
             package["name"]: package["version"]
@@ -24,10 +24,18 @@ class PoetryProvider:
             library = "library" in package.get("tool").get("poetry").get("keywords", [])
             package_version = package.get("tool").get("poetry").get("version")
 
-        return dict(
+        local = dict(
             use_black=packages.get("black", 0),
             use_flake8=packages.get("flake8", 0),
             use_pytest=packages.get("pytest", 0),
             is_library=library,
-            package_version=package_version,
         )
+
+        if variables.get("workflow") in ("release_created", "release_published"):
+            local["package_version"] = package_version,
+
+        print(variables)
+
+        local["artifact_version"] = f"{variables.get('project_name')}@{variables.get('package_version')}"
+
+        return local

@@ -5,5 +5,5 @@ class DockerProvider:
     def is_enabled(self):
         return isfile("Dockerfile")
 
-    def dump(self):
+    def dump(self, variables):
         return dict(use_dockerlint=isfile("Dockerfile"))
