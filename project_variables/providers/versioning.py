@@ -10,8 +10,6 @@ class VersionProvider:
         github_ref = os.getenv("GITHUB_REF", "")
         github_sha = os.getenv("GITHUB_SHA", "")
 
-        print(github_ref)
-
         if "refs/tags" in github_ref:
             package_version = github_ref.replace("refs/tags/", "")
         elif github_sha:
