@@ -11,9 +11,11 @@ class AWSProvider:
             "release_published": "production",
         }
 
-        stage = stages.get(variables.get("workflow", "manual"))
+        local = {}
+        if "stage" not in variables:
+            stage = stages.get(variables.get("workflow", "manual"))
+            local["stage"] = stage
 
-        return dict(
-            stage=stage,
-            aws_account_key=f"AWS_{stage}_ACCOUNT_ID".upper()
-        )
+        local["aws_account_key"] = f"AWS_{local.get('stage')}_ACCOUNT_ID".upper()
+
+        return local

@@ -12,7 +12,9 @@ class PythonProvider:
         python_version = "3.7"
         if isfile("pyproject.toml"):
             pyproject = toml.loads(open("pyproject.toml").read())
-            python_version = re.sub(r"[^\d\\.]", "", pyproject.get("tool").get("poetry").get("dependencies").get("python"))
+            python_version = re.sub(
+                r"[^\d\\.]", "", pyproject.get("tool").get("poetry").get("dependencies").get("python")
+            )
 
         if isfile(".python-version"):
             python_version = open(".python-version").read().strip()

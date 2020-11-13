@@ -12,10 +12,7 @@ class PoetryProvider:
 
     def dump(self, variables):
         lock = open(PoetryProvider.lock_file).read()
-        packages = {
-            package["name"]: package["version"]
-            for package in toml.loads(lock).get("package")
-        }
+        packages = {package["name"]: package["version"] for package in toml.loads(lock).get("package")}
 
         library = False
         package_version = None

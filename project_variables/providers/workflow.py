@@ -11,8 +11,11 @@ class WorkflowProvider:
         event_action = os.getenv("GITHUB_EVENT_ACTION")
         comment_body = os.getenv("GITHUB_EVENT_COMMENT")
 
-        if event_name == "issue_comment" and comment_body == "/deploy":
+        local = {}
+        if event_name == "issue_comment" and comment_body.startswith("/deploy"):
             trigger = "manual"
+            stage = comment_body.replace("/deploy", "").strip() or "playground"
+            local["stage"] = stage
         elif event_name == "push":
             trigger = "push"
         elif event_name == "release" and event_action == "created":
@@ -20,4 +23,6 @@ class WorkflowProvider:
         elif event_name == "release" and event_action == "released":
             trigger = "release_published"
 
-        return {"workflow": trigger}
+        local["workflow"] = trigger
+
+        return local
