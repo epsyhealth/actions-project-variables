@@ -32,7 +32,7 @@ class PoetryProvider:
         )
 
         if variables.get("workflow") in ("release_created", "release_published"):
-            local["package_version"] = package_version,
+            local["package_version"] = package_version
 
         local["artifact_version"] = f"{variables.get('project_name')}@{variables.get('package_version')}"
 
