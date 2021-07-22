@@ -12,6 +12,7 @@ from project_variables.providers.python import PythonProvider
 from project_variables.providers.versioning import VersionProvider
 from project_variables.providers.workflow import WorkflowProvider
 
+
 @click.command()
 @click.option("--debug", is_flag=True)
 @click.option("--work-dir", default=os.getcwd())

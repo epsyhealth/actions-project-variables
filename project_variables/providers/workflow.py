@@ -1,5 +1,6 @@
 from project_variables.variables import event_action, comment_body, event_name
 
+
 class WorkflowProvider:
     def is_enabled(self):
         return True

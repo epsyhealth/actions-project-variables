@@ -2,6 +2,7 @@ import os
 import re
 from project_variables.variables import repository
 
+
 class ProjectProvider:
     def is_enabled(self):
         return True

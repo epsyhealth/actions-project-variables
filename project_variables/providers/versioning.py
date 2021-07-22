@@ -1,6 +1,7 @@
 import time
 from project_variables.variables import github_ref, github_sha
 
+
 class VersionProvider:
     def is_enabled(self):
         return True
