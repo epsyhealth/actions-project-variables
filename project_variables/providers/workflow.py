@@ -1,5 +1,4 @@
-import os
-
+from project_variables.variables import event_action, comment_body, event_name
 
 class WorkflowProvider:
     def is_enabled(self):
@@ -7,10 +6,6 @@ class WorkflowProvider:
 
     def dump(self, variables):
         trigger = "manual"
-        event_name = os.getenv("GITHUB_EVENT_NAME")
-        event_action = os.getenv("GITHUB_EVENT_ACTION")
-        comment_body = os.getenv("GITHUB_EVENT_COMMENT")
-
         local = {}
         if event_name == "issue_comment" and comment_body.startswith("/deploy"):
             trigger = "manual"

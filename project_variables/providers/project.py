@@ -1,14 +1,12 @@
 import os
 import re
-
+from project_variables.variables import repository
 
 class ProjectProvider:
     def is_enabled(self):
         return True
 
     def dump(self, variables):
-        repository = os.getenv("GITHUB_REPOSITORY")
-
         if repository:
             org, name = repository.split("/")
         else:

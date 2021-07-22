@@ -1,15 +1,11 @@
-import os
 import time
-
+from project_variables.variables import github_ref, github_sha
 
 class VersionProvider:
     def is_enabled(self):
         return True
 
     def dump(self, variables):
-        github_ref = os.getenv("GITHUB_REF", "")
-        github_sha = os.getenv("GITHUB_SHA", "")
-
         if "refs/tags" in github_ref:
             package_version = github_ref.replace("refs/tags/", "")
         elif github_sha:
