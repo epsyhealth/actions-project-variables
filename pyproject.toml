@@ -2,21 +2,25 @@
 name = "actions-project-variables"
 version = "0.1.0"
 description = ""
-authors = ["Epsy Health <engineering@epsyhealth.com>"]
+authors = ["Epsy <engineering@epsyhealth.com>"]
+readme = "README.md"
+include = ["README.md"]
+repository = "https://github.com/epsyhealth/actions-project-variables"
 packages = [
     { include = "project_variables" }
 ]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-click = "^7.1.2"
+click = "^8.0"
 toml = "^0.10.2"
 
 [tool.poetry.scripts]
 project = 'project_variables.cli:run'
 
 [tool.poetry.dev-dependencies]
-black = "^20.8b1"
+black = "^21.8b0"
+isort = "^5.9.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -24,3 +28,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 120
+
+[tool.isort]
+line_length = 120
