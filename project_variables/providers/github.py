@@ -1,4 +1,4 @@
-from project_variables.variables import event_name, event_action, comment_body, commit_message
+from project_variables.variables import comment_body, commit_message, event_action, event_name
 
 
 class GithubProvider:

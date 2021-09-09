@@ -1,4 +1,4 @@
-from project_variables.variables import event_action, comment_body, event_name
+from project_variables.variables import comment_body, event_action, event_name
 
 
 class WorkflowProvider:
