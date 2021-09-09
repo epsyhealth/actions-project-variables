@@ -20,7 +20,7 @@ class AWSProvider:
     def dump(self, variables):
         local = {}
         stage = variables.get("stage")
-        if not stage:
+        if "stage" not in variables:
             stage = STAGES.get(variables.get("workflow", "manual"))
             local["stage"] = stage
 
