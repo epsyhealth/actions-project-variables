@@ -30,6 +30,7 @@ def run(debug, work_dir):
     ]
 
     variables = OrderedDict()
+    variables["is_library"] = False
     for provider in [p for p in providers if p.is_enabled()]:
         variables.update(provider.dump(variables))
 
