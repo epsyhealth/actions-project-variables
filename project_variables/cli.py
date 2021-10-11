@@ -5,6 +5,7 @@ import click
 
 from project_variables.providers.aws import AWSProvider
 from project_variables.providers.docker import DockerProvider
+from project_variables.providers.docker_test import DockerTestProvider
 from project_variables.providers.github import GithubProvider
 from project_variables.providers.poetry import PoetryProvider
 from project_variables.providers.project import ProjectProvider
@@ -25,6 +26,7 @@ def run(debug, work_dir):
         PoetryProvider(),
         PythonProvider(),
         DockerProvider(),
+        DockerTestProvider(),
         GithubProvider(),
         AWSProvider(),
     ]
