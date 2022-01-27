@@ -9,7 +9,7 @@ STAGES = {
 ENV_NAME_TO_SHORT = {
     "playground": "play",
     "development": "dev",
-    "production" : "prod",
+    "production": "prod",
 }
 
 
@@ -27,6 +27,14 @@ class AWSProvider:
         if "stage_short" not in variables:
             local["stage_short"] = ENV_NAME_TO_SHORT.get(stage, stage)
 
-        local["aws_account_key"] = f"AWS_{stage}_ACCOUNT_ID".upper()
+        if "project_config" in variables:
+            account_group = variables.get("project_config", {}).get("aws", {}).get("accountGroup")
+            if account_group:
+                local["aws_account_group"] = account_group
+
+        account_id_stage = stage
+        if stage in ["staging", "production"] and local["aws_account_group"] == "dataScience":
+            account_id_stage += "_DS"
+        local["aws_account_key"] = f"AWS_{account_id_stage}_ACCOUNT_ID".upper()
 
         return local
