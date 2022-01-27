@@ -1,7 +1,9 @@
 import os
 from collections import OrderedDict
+from os.path import isfile
 
 import click
+import yaml
 
 from project_variables.providers.aws import AWSProvider
 from project_variables.providers.docker import DockerProvider
@@ -12,6 +14,8 @@ from project_variables.providers.project import ProjectProvider
 from project_variables.providers.python import PythonProvider
 from project_variables.providers.versioning import VersionProvider
 from project_variables.providers.workflow import WorkflowProvider
+
+CONFIG_FILE = ".github/config.yml"
 
 
 @click.command()
@@ -32,9 +36,18 @@ def run(debug, work_dir):
     ]
 
     variables = OrderedDict()
+
+    variables["project_config"] = {}
+    if isfile(CONFIG_FILE):
+        with open(CONFIG_FILE, "r") as stream:
+            variables["project_config"] = yaml.load(stream)
+
     variables["is_library"] = False
+    variables["aws_account_group"] = "main"
     for provider in [p for p in providers if p.is_enabled()]:
         variables.update(provider.dump(variables))
+
+    del variables["project_config"]
 
     for k, v in variables.items():
         if debug:
