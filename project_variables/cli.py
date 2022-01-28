@@ -4,6 +4,10 @@ from os.path import isfile
 
 import click
 import yaml
+try:
+    from yaml import CLoader as Loader
+except ImportError:
+    from yaml import Loader
 
 from project_variables.providers.aws import AWSProvider
 from project_variables.providers.docker import DockerProvider
@@ -40,7 +44,7 @@ def run(debug, work_dir):
     variables["project_config"] = {}
     if isfile(CONFIG_FILE):
         with open(CONFIG_FILE, "r") as stream:
-            variables["project_config"] = yaml.load(stream)
+            variables["project_config"] = yaml.load(stream, Loader)
 
     variables["is_library"] = False
     variables["aws_account_group"] = "main"
