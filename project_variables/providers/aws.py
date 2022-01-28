@@ -33,7 +33,7 @@ class AWSProvider:
                 local["aws_account_group"] = account_group
 
         account_id_stage = stage
-        if stage in ["staging", "production"] and local["aws_account_group"] == "dataScience":
+        if stage in ["staging", "production"] and variables["aws_account_group"] == "dataScience":
             account_id_stage += "_DS"
         local["aws_account_key"] = f"AWS_{account_id_stage}_ACCOUNT_ID".upper()
 
