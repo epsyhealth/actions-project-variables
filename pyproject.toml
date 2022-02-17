@@ -15,6 +15,7 @@ python = "^3.8"
 click = "^8.0"
 toml = "^0.10.2"
 PyYAML = "^6.0"
+actions-toolkit = "^0.1.13"
 
 [tool.poetry.scripts]
 project = 'project_variables.cli:run'
