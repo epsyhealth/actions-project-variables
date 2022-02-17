@@ -1,9 +1,12 @@
+import io
 import os
 from collections import OrderedDict
 from os.path import isfile
 
 import click
 import yaml
+from actions_toolkit import core
+
 try:
     from yaml import CLoader as Loader
 except ImportError:
@@ -24,8 +27,10 @@ CONFIG_FILE = ".github/config.yml"
 
 @click.command()
 @click.option("--debug", is_flag=True)
+@click.option("--export", is_flag=True, default=False)
+@click.option("--save", is_flag=True, default=False)
 @click.option("--work-dir", default=os.getcwd())
-def run(debug, work_dir):
+def run(debug, work_dir, export, save):
     os.chdir(work_dir)
     providers = [
         WorkflowProvider(),
@@ -44,7 +49,7 @@ def run(debug, work_dir):
     variables["project_config"] = {}
     if isfile(CONFIG_FILE):
         with open(CONFIG_FILE, "r") as stream:
-            variables["project_config"] = yaml.load(stream, Loader)
+            variables["project_config"] = yaml.safe_load(stream)
 
     variables["is_library"] = False
     variables["aws_account_group"] = "main"
@@ -53,8 +58,21 @@ def run(debug, work_dir):
 
     del variables["project_config"]
 
+    buffer = io.StringIO()
+
     for k, v in variables.items():
         if debug:
             click.secho(f"{k}::{v}", fg="green")
 
-        click.echo(f"::set-output name={k}::{v if type(v) != bool else str(v).lower()}")
+        value = v if type(v) != bool else str(v).lower()
+        core.set_output(k, value)
+        if export:
+            core.export_variable(f"project_{k}", value)
+
+        if save:
+            buffer.write(f"echo 'project_{k}={value}' >> $GITHUB_ENV\n")
+
+    if save:
+        with open(".variables", "w+") as f:
+            buffer.seek(0)
+            f.write(buffer.read())
